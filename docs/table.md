@@ -1,156 +1,157 @@
 ```mermaid
+erDiagram
+    CUSTOMER_MST ||--o{ CUSTOMER_ACTIVITY_SUMMARY : has
+    STORE_MST ||--o{ CUSTOMER_MST : has
+    CUSTOMER_MST ||--o{ STAMP_GET_HISTORY : has
+    STORE_MST ||--o{ STAMP_GET_HISTORY : has
+    CUSTOMER_MST ||--o{ STAMP_USE_HISTORY : has
+    COUPON_MST ||--o{ STAMP_USE_HISTORY : has
+    STORE_MST ||--o{ COUPON_MST : has
+    CUSTOMER_MST ||--o{ COUPON_GET_HISTORY : has
+    COUPON_MST ||--o{ COUPON_GET_HISTORY : has
+    CUSTOMER_MST ||--o{ COUPON_USE_HISTORY : has
+    COUPON_MST ||--o{ COUPON_USE_HISTORY : has
+    STORE_MST ||--o{ COUPON_USE_HISTORY : has
+    CUSTOMER_MST ||--o{ LOTTERY_USE_HISTORY : has
+    LOTTERY_MST ||--o{ LOTTERY_USE_HISTORY : has
+    CUSTOMER_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : has
+    PUSH_NOTIFICATION_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : has
+    STORE_MST ||--o{ INFORMATION_MST : has
+    CUSTOMER_MST ||--o{ INFORMATION_CHECK_HISTORY : has
+    INFORMATION_MST ||--o{ INFORMATION_CHECK_HISTORY : has
+    CUSTOMER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : has
+    EXTERNAL_SITE_BANNER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : has
+
     CUSTOMER_MST {
-        string 顧客ID PK
-        string ユーザ名
-        string 氏名
+        string customerID PK
+        string username
+        string fullName
         string email
-        string 年代
-        string 性別
-        string 職業
-        datetime 登録日
-        string 利用店舗ID FK
-        boolean 退会済みフラグ
+        string ageGroup
+        string gender
+        string occupation
+        datetime registrationDate
+        string storeID FK
+        boolean isWithdrawn
     }
-    CUSTOMER_ACTIVITY_SUMMERY {
-        string 顧客ID PK
-        datetime 最終ログイン日
-        int 月間来店数
-        int 合計来店数
-        int スタンプ数_現在
-        int スタンプ数_過去合計
-        datetime スタンプ最終利用日
-        int おみくじ利用数
-        datetime おみくじ最終利用日
-        int クーポン利用数
-        datetime クーポン最終利用日
-        boolean Google口コミ完了フラグ
-        datetime Google口コミ完了日時
-        boolean SNS口コミ完了フラグ
-        datetime SNS口コミ完了日時
+    CUSTOMER_ACTIVITY_SUMMARY {
+        string customerID PK
+        datetime lastLoginDate
+        int monthlyVisits
+        int totalVisits
+        int currentStamps
+        int totalStamps
+        datetime lastStampUseDate
+        int lotteryUseCount
+        datetime lastLotteryUseDate
+        int couponUseCount
+        datetime lastCouponUseDate
+        boolean googleReviewFlag
+        datetime googleReviewDate
+        boolean snsReviewFlag
+        datetime snsReviewDate
     }
     STORE_MST {
-        string 店舗ID PK
-        string 店舗名
-        string 住所
-        string 電話番号
-        string 営業時間
-        string 定休日
-        int 座席数
-        int 駐車場台数
-        datetime 開店日
-        datetime 閉店日
+        string storeID PK
+        string storeName
+        string address
+        string phone
+        string businessHours
+        string closedDays
+        int seatingCapacity
+        int parkingSpaces
+        datetime openingDate
+        datetime closingDate
     }
     STAMP_GET_HISTORY {
-        string 獲得履歴ID PK
-        string 顧客ID FK
-        string 店舗ID FK
-        int 獲得スタンプ数
-        datetime スタンプ獲得日時
+        string historyID PK
+        string customerID FK
+        string storeID FK
+        int stampCount
+        datetime acquisitionDate
     }
     STAMP_USE_HISTORY {
-        string 使用履歴ID PK
-        string 顧客ID FK
-        int 使用スタンプ数
-        string 交換クーポンID FK
-        datetime スタンプ使用日時
+        string historyID PK
+        string customerID FK
+        int usedStamps
+        string couponID FK
+        datetime useDate
     }
     COUPON_MST {
-        string クーポンID PK
-        string クーポン名
-        string 説明
-        int 必要スタンプ数
-        string 利用可能店舗ID FK
-        datetime 新規導入日
-        int 有効期限日数
+        string couponID PK
+        string couponName
+        string description
+        int requiredStamps
+        string validStoreID FK
+        datetime introductionDate
+        int validityDays
     }
     COUPON_GET_HISTORY {
-        string 獲得履歴ID PK
-        string 顧客ID FK
-        string クーポンID FK
-        datetime クーポン獲得日時
+        string historyID PK
+        string customerID FK
+        string couponID FK
+        datetime acquisitionDate
     }
     COUPON_USE_HISTORY {
-        string 使用履歴ID PK
-        string 顧客ID FK
-        string クーポンID FK
-        string 店舗ID FK
-        datetime クーポン使用日時
+        string historyID PK
+        string customerID FK
+        string couponID FK
+        string storeID FK
+        datetime useDate
     }
     LOTTERY_MST {
-        string おみくじID PK
-        string おみくじ名
-        string 説明
-        datetime 新規導入日
+        string lotteryID PK
+        string name
+        string description
+        datetime introductionDate
     }
     LOTTERY_USE_HISTORY {
-        string 利用履歴ID PK
-        string 顧客ID FK
-        string 獲得おみくじID FK
-        datetime おみくじ利用日時
+        string historyID PK
+        string customerID FK
+        string lotteryID FK
+        datetime useDate
     }
     PUSH_NOTIFICATION_MST {
-        string プッシュ通知ID PK
-        string 内容
-        string 種類
+        string notificationID PK
+        string content
+        string type
     }
     PUSH_NOTIFICATION_CLICK_HISTORY {
-        string クリック履歴ID PK
-        string 顧客ID FK
-        string プッシュ通知ID FK
-        datetime クリック日時
+        string historyID PK
+        string customerID FK
+        string notificationID FK
+        datetime clickDate
     }
     INFORMATION_MST {
-        string お知らせID PK
-        string タイトル
-        string 詳細
-        string リンク
-        string 対象店舗ID FK
-        datetime 配信日時
+        string informationID PK
+        string title
+        string details
+        string link
+        string targetStoreID FK
+        datetime publishDate
     }
     INFORMATION_CHECK_HISTORY {
-        string お知らせ確認履歴ID PK
-        string 顧客ID FK
-        string お知らせID FK
-        datetime お知らせ確認日時
+        string historyID PK
+        string customerID FK
+        string informationID FK
+        datetime checkDate
     }
     EXTERNAL_SITE_BANNER_MST {
-        string 遷移バナーID PK
-        string タイトル
-        string リンク
+        string bannerID PK
+        string title
+        string link
     }
     EXTERNAL_SITE_BANNER_CLICK_HISTORY {
-        string クリック履歴ID PK
-        string 顧客ID FK
-        string 遷移バナーID FK
-        datetime クリック日時
+        string historyID PK
+        string customerID FK
+        string bannerID FK
+        datetime clickDate
     }
     MENU_MST {
-        string メニューID PK
-        string メニュー名
-        int 価格
-        string カテゴリ
-        string 説明
+        string menuID PK
+        string menuName
+        int price
+        string category
+        string description
     }
-    
-    CUSTOMER_MST ||--||{ CUSTOMER_ACTIVITY_SUMMERY : "顧客ID"
-    STORE_MST ||--o{ CUSTOMER_MST : "利用店舗ID"
-    CUSTOMER_MST ||--o{ STAMP_GET_HISTORY : "顧客ID"
-    STORE_MST ||--o{ STAMP_GET_HISTORY : "店舗ID"
-    CUSTOMER_MST ||--o{ STAMP_USE_HISTORY : "顧客ID"
-    COUPON_MST ||--o{ STAMP_USE_HISTORY : "交換クーポンID"
-    STORE_MST ||--o{ COUPON_MST : "利用可能店舗ID"
-    CUSTOMER_MST ||--o{ COUPON_GET_HISTORY : "顧客ID"
-    COUPON_MST ||--o{ COUPON_GET_HISTORY : "クーポンID"
-    CUSTOMER_MST ||--o{ COUPON_USE_HISTORY : "顧客ID"
-    COUPON_MST ||--o{ COUPON_USE_HISTORY : "クーポンID"
-    STORE_MST ||--o{ COUPON_USE_HISTORY : "店舗ID"
-    CUSTOMER_MST ||--o{ LOTTERY_USE_HISTORY : "顧客ID"
-    LOTTERY_MST ||--o{ LOTTERY_USE_HISTORY : "獲得おみくじID"
-    CUSTOMER_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : "顧客ID"
-    PUSH_NOTIFICATION_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : "プッシュ通知ID"
-    STORE_MST ||--o{ INFORMATION_MST : "対象店舗ID"
-    CUSTOMER_MST ||--o{ INFORMATION_CHECK_HISTORY : "顧客ID"
-    INFORMATION_MST ||--o{ INFORMATION_CHECK_HISTORY : "お知らせID"
-    CUSTOMER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "顧客ID"
-    EXTERNAL_SITE_BANNER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "遷移バナーID"
 ```
