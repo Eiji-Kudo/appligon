@@ -11,7 +11,7 @@
         string 利用店舗ID FK
         boolean 退会済みフラグ
     }
-    CUSTOMER_ACTIVITY_SUMMERY { #クーポン履歴やスタンプ履歴などの複数の他のHISTORYテーブルで取得できる情報をサマリーとして表示するテーブル
+    CUSTOMER_ACTIVITY_SUMMERY {
         string 顧客ID PK
         datetime 最終ログイン日
         int 月間来店数
@@ -59,18 +59,16 @@
         string クーポン名
         string 説明
         int 必要スタンプ数
-        string 利用可能店舗ID FK #複数の店舗IDが入る想定
+        string 利用可能店舗ID FK
         datetime 新規導入日
         int 有効期限日数
     }
-    
     COUPON_GET_HISTORY {
         string 獲得履歴ID PK
         string 顧客ID FK
         string クーポンID FK
         datetime クーポン獲得日時
     }
-    
     COUPON_USE_HISTORY {
         string 使用履歴ID PK
         string 顧客ID FK
@@ -84,20 +82,17 @@
         string 説明
         datetime 新規導入日
     }
-    
     LOTTERY_USE_HISTORY {
         string 利用履歴ID PK
         string 顧客ID FK
         string 獲得おみくじID FK
         datetime おみくじ利用日時
     }
-    
     PUSH_NOTIFICATION_MST {
         string プッシュ通知ID PK
         string 内容
         string 種類
     }
-    
     PUSH_NOTIFICATION_CLICK_HISTORY {
         string クリック履歴ID PK
         string 顧客ID FK
@@ -109,24 +104,22 @@
         string タイトル
         string 詳細
         string リンク
-        string 対象店舗ID FK #複数の店舗IDが入る想定
+        string 対象店舗ID FK
         datetime 配信日時
     }
-    
     INFORMATION_CHECK_HISTORY {
         string お知らせ確認履歴ID PK
         string 顧客ID FK
         string お知らせID FK
         datetime お知らせ確認日時
     }
-    EXTERNAL_SITE_BANNER_MST { #ホーム画面に表示のSNSページや店舗公式サイト、店舗採用ページなどの外部サイトへの遷移バナーのマスタ
+    EXTERNAL_SITE_BANNER_MST {
         string 遷移バナーID PK
         string タイトル
         string リンク
     }
-    
-    EXTERNAL_SITE_BANNER_CLICK_HISTORY { #外部サイトへの遷移バナーのクリック日時
-        string クリック履歴ID PK店舗採用ページなどの
+    EXTERNAL_SITE_BANNER_CLICK_HISTORY {
+        string クリック履歴ID PK
         string 顧客ID FK
         string 遷移バナーID FK
         datetime クリック日時
@@ -139,32 +132,25 @@
         string 説明
     }
     
-    # 顧客マスタ関連
     CUSTOMER_MST ||--||{ CUSTOMER_ACTIVITY_SUMMERY : "顧客ID"
     STORE_MST ||--o{ CUSTOMER_MST : "利用店舗ID"
-    # スタンプ関連
     CUSTOMER_MST ||--o{ STAMP_GET_HISTORY : "顧客ID"
     STORE_MST ||--o{ STAMP_GET_HISTORY : "店舗ID"
     CUSTOMER_MST ||--o{ STAMP_USE_HISTORY : "顧客ID"
     COUPON_MST ||--o{ STAMP_USE_HISTORY : "交換クーポンID"
-    # クーポン関連
     STORE_MST ||--o{ COUPON_MST : "利用可能店舗ID"
     CUSTOMER_MST ||--o{ COUPON_GET_HISTORY : "顧客ID"
-    STORE_MST ||--o{ COUPON_GET_HISTORY : "店舗ID"
     COUPON_MST ||--o{ COUPON_GET_HISTORY : "クーポンID"
-    CUSTOMER_MST ||--o{ STAMP_USE_HISTORY : "クーポン利用"
+    CUSTOMER_MST ||--o{ COUPON_USE_HISTORY : "顧客ID"
     COUPON_MST ||--o{ COUPON_USE_HISTORY : "クーポンID"
-    # おみくじ関連
+    STORE_MST ||--o{ COUPON_USE_HISTORY : "店舗ID"
     CUSTOMER_MST ||--o{ LOTTERY_USE_HISTORY : "顧客ID"
     LOTTERY_MST ||--o{ LOTTERY_USE_HISTORY : "獲得おみくじID"
-    # プッシュ通知関連
     CUSTOMER_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : "顧客ID"
     PUSH_NOTIFICATION_MST ||--o{ PUSH_NOTIFICATION_CLICK_HISTORY : "プッシュ通知ID"
-    # お知らせ関連
     STORE_MST ||--o{ INFORMATION_MST : "対象店舗ID"
     CUSTOMER_MST ||--o{ INFORMATION_CHECK_HISTORY : "顧客ID"
     INFORMATION_MST ||--o{ INFORMATION_CHECK_HISTORY : "お知らせID"
-    # 外部サイト遷移バナー関連
     CUSTOMER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "顧客ID"
     EXTERNAL_SITE_BANNER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "遷移バナーID"
 ```
