@@ -1,4 +1,4 @@
-erDiagram
+```erDiagram
     CUSTOMER_MST {
         string 顧客ID PK
         string ユーザ名
@@ -167,3 +167,4 @@ erDiagram
     # 外部サイト遷移バナー関連
     CUSTOMER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "顧客ID"
     EXTERNAL_SITE_BANNER_MST ||--o{ EXTERNAL_SITE_BANNER_CLICK_HISTORY : "遷移バナーID"
+```
