@@ -1,4 +1,4 @@
-```erDiagram
+```mermaid
     CUSTOMER_MST {
         string 顧客ID PK
         string ユーザ名
